@@ -28,6 +28,18 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+let articles = [];
+
+app.get('/article/:index', function(request,response){
+  if(articles[request.params.index]){
+    response.render('article.ejs',{
+      article:articles[request.params.index]
+    })
+  }else{
+    response.json({msg: 'Article not found'})
+  }
+})
+
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname+'/index.html');
@@ -39,12 +51,13 @@ app.get('/second', function(req, res){
 });
 
 app.get('/new_article', function(req, res){
-	res.sendFile(__dirname+'/new_article.html');
+	res.sendFile(__dirname+'/views/new_article.html');
 });
 
 
 app.post('/new_article', function(req, res){
-	console.log(req.body);
+  console.log(req.body);
+  articles.push(req.body);
 	res.send('response successfully sent');
 });
 
@@ -52,3 +65,5 @@ app.post('/new_article', function(req, res){
 app.listen(3000, 'localhost', function() {
 	console.log('Server running');
 });
+
+
