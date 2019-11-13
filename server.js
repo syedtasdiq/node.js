@@ -26,6 +26,21 @@ const app = require('express')();
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+const mongo = required('mongodb');
+
+var db, url = "mongodb+srv://tasdiq:<password>@cluster0-soyml.mongodb.net/test?retryWrites=true&w=majority"
+
+app.use(bodyParse.urlencoded({ extended : true}));
+
+mongo.MongoClient.connect(uri,{useNewUrlParser: true, useUnifiedTopology: true },
+  function(err, client){
+    if(err){
+      console.log('Could not connect to MongoDB')
+    }else{
+      db = client.db("node-cw9")
+    }
+  })
+
 
 
 let articles = [];
@@ -56,6 +71,7 @@ app.get('/new_article', function(req, res){
 
 
 app.post('/new_article', function(req, res){
+  SVGFEFuncAElement()
   console.log(req.body);
   articles.push(req.body);
 	res.send('response successfully sent');
